@@ -7,10 +7,13 @@ export default function GetNames({route,navigation}) {
   const [user1, setUser1] = useState();
   const [user2, setUser2] = useState();
   const createUser = async () => {
-  try {
+    try {
+    console.log(user1)
     await AsyncStorage.setItem('rps_user1', user1)
     if (type === "multi") {
       await AsyncStorage.setItem('rps_user2', user2)
+    } else {
+      await AsyncStorage.setItem('rps_user2', "Computer")
     }
     await AsyncStorage.setItem('type', type);
     navigation.navigate("Choice")
@@ -19,23 +22,23 @@ export default function GetNames({route,navigation}) {
   }
 }
   return (
-    <View>
+    <View style={styles.container}>
       {type === "multi" ? (
-        <View>
+        <View style={styles.homeContainer}>
           <View>
-            <TextInput placeholder='Enter player1 name' onChange={setUser1}/>
-            <TextInput placeholder='Enter player2 name' onChange={setUser2}/>
+            <TextInput placeholder='Enter player1 name' onChangeText={(text => setUser1(text))} style={styles.textInput} />
+            <TextInput placeholder='Enter player2 name' onChangeText={(text => setUser2(text))} style={styles.textInput}/>
           </View>
-          <Pressable onPress={createUser}>
-              <Text>Enter Game</Text>
+          <Pressable onPress={createUser} style={styles.btn1}>
+              <Text style={styles.btn1Txt}>Enter Game</Text>
           </Pressable>
         </View>
-      ):<View>
+      ):<View style={styles.homeContainer}>
           <View>
-            <TextInput placeholder='Enter player name' onChange={setUser1}/>
+            <TextInput placeholder='Enter player name' onChangeText={(text => setUser1(text))} style={styles.textInput}/>
           </View>
-          <Pressable onPress={createUser}>
-              <Text>Enter Game</Text>
+          <Pressable onPress={()=>createUser()} style={styles.btn1}>
+              <Text style={styles.btn1Txt}>Enter Game</Text>
           </Pressable>
         </View>}
     </View>
